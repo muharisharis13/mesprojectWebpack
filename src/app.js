@@ -1,11 +1,14 @@
 import React from "react";
-import Hellod from "@pages";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import LandingPage from "@pages/landingpage";
 
 const App = () => {
   return (
-    <div className="app">
-      <Hellod />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 };
 
