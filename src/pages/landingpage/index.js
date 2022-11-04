@@ -12,9 +12,12 @@ import {
   FooterLanding,
 } from "@components/landingpage";
 
+import { HelmetLanding } from "@utils";
+
 const LandingPage = () => {
   return (
     <div>
+      <HelmetLanding />
       <HeaderLanding />
       <IntroLanding />
       <main id="main">
@@ -28,8 +31,8 @@ const LandingPage = () => {
         <ContactLanding />
       </main>
       <FooterLanding />
-      <a href="#" class="back-to-top">
-        <i class="fa fa-chevron-up"></i>
+      <a href="#" className="back-to-top">
+        <i className="fa fa-chevron-up"></i>
       </a>
     </div>
   );

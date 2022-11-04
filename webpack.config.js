@@ -1,17 +1,27 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 var webpack = require("webpack");
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   entry: "./src/index.js",
   output: {
     filename: "main.js",
     path: path.resolve(__dirname, "build"),
+    publicPath: "/",
   },
   plugins: [
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, "assets"),
+          to: path.resolve(__dirname, "build", "assets")
+        },
+      ],
+    }),
     new webpack.optimize.AggressiveMergingPlugin(), //Merge chunks
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, "public", "index.html"),
+      template: path.join(__dirname, "index.html"),
     }),
   ],
   devServer: {

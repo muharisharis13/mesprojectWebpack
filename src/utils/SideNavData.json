@@ -1,0 +1,45 @@
+[
+  {
+    "icon":"bx-home-circle",
+    "title":"Dashboard",
+    "data-i":"Analytic",
+    "href":"/dashboard",
+    "sub-menu":[]
+  },
+  {
+    "icon":"bx-book-content",
+    "title":"Landing Page",
+    "data-i":"",
+    "href":"javascript:void(0);",
+    "sub-menu":[
+      {
+        "title":"Header",
+        "href":"/dashboard/landingpage/HeaderPageDashboard"
+      },
+      {
+        "title":"Banner",
+        "href":"/dashboard/landingpage/BannerPageDashboard"
+      },
+      {
+        "title":"About",
+        "href":"/dashboard/landingpage/AboutPageDashboard"
+      },
+      {
+        "title":"Services",
+        "href":"/dashboard/landingpage/ServicesPageDashboard"
+      }
+    ]
+  },
+  {
+    "icon":"bx-cog",
+    "title":"Settings",
+    "data-i":"Account Settings",
+    "href":"javascript:void(0);",
+    "sub-menu":[
+      {
+        "title":"Account",
+        "href":"/dashboard/account"
+      }
+    ]
+  }
+]

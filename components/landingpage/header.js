@@ -1,6 +1,9 @@
+import { HelmetLanding } from "@utils"
+import React from "react"
+
 const Header = () => {
   return (
-    <div>
+    <React.Fragment>
       {/* <!--==========================
     Top Bar
   ============================--> */}
@@ -63,23 +66,6 @@ const Header = () => {
               <li>
                 <a href="#team">Team</a>
               </li>
-              <li className="menu-has-children">
-                <a href="">Drop Down</a>
-                <ul>
-                  <li>
-                    <a href="#">Drop Down 1</a>
-                  </li>
-                  <li>
-                    <a href="#">Drop Down 3</a>
-                  </li>
-                  <li>
-                    <a href="#">Drop Down 4</a>
-                  </li>
-                  <li>
-                    <a href="#">Drop Down 5</a>
-                  </li>
-                </ul>
-              </li>
               <li>
                 <a href="#contact">Contact</a>
               </li>
@@ -87,7 +73,7 @@ const Header = () => {
           </nav>
         </div>
       </header>
-    </div>
+    </React.Fragment>
   );
 };
 
