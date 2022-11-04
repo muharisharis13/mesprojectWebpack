@@ -8,7 +8,7 @@ const ServicesPageDashboard = () => {
               <div className="card-body">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 Voluptatem aperiam sed vitae minima officiis similique in
-                obcaecati corrupti, natus facilis.
+                obcaecati corrupti, natus facilis.aaa
               </div>
             </div>
           </div>
