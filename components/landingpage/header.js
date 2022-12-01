@@ -1,7 +1,9 @@
-import { HelmetLanding } from "@utils"
-import React from "react"
+import { HelmetLanding } from "@utils";
+import React from "react";
 
-const Header = () => {
+const Header = ({
+  data
+}) => {
   return (
     <React.Fragment>
       {/* <!--==========================
@@ -11,24 +13,21 @@ const Header = () => {
         <div className="container clearfix">
           <div className="contact-info float-left">
             <i className="fa fa-envelope-o"></i>{" "}
-            <a href="mailto:contact@example.com">contact@example.com</a>
-            <i className="fa fa-phone"></i> +1 5589 55488 55
+            <a href="mailto:contact@example.com">{data?.email}</a>
+            <i className="fa fa-phone"></i> {data?.phone_number}
           </div>
           <div className="social-links float-right">
-            <a href="#" className="twitter">
+            <a href={data?.social_media?.twitter} target="__blank" className="twitter">
               <i className="fa fa-twitter"></i>
             </a>
-            <a href="#" className="facebook">
+            <a href={data?.social_media?.facebook} target="__blank" className="facebook">
               <i className="fa fa-facebook"></i>
             </a>
-            <a href="#" className="instagram">
+            <a href={data?.social_media?.instagram} target="__blank" className="instagram">
               <i className="fa fa-instagram"></i>
             </a>
-            <a href="#" className="google-plus">
-              <i className="fa fa-google-plus"></i>
-            </a>
-            <a href="#" className="linkedin">
-              <i className="fa fa-linkedin"></i>
+            <a href={data?.social_media?.whatsapp} target="__blank" className="whatsapp">
+              <i className="fa fa-whatsapp"></i>
             </a>
           </div>
         </div>
@@ -41,8 +40,8 @@ const Header = () => {
         <div className="container">
           <div id="logo" className="pull-left">
             <h1>
-              <a href="#body" className="scrollto">
-                Reve<span>al</span>
+              <a href="#body" className="scrollto" style={{ color: "#fdc134" }}>
+                MES
               </a>
             </h1>
             {/* <!-- Uncomment below if you prefer to use an image logo --> */}

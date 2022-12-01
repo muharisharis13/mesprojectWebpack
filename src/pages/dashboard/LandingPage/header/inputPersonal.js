@@ -1,4 +1,4 @@
-const InputPersonal = () => {
+const InputPersonal = ({ register }) => {
   return (
     <div className="row mb-4">
       <div className="mb-3 col-md-6">
@@ -7,10 +7,11 @@ const InputPersonal = () => {
         </label>
         <input
           className="form-control"
-          type="text"
+          type="email"
           id="email"
           name="email"
           autoFocus
+          {...register("email")}
         />
       </div>
       <div className="mb-3 col-md-6">
@@ -22,6 +23,7 @@ const InputPersonal = () => {
           type="text"
           name="phoneNumber"
           id="phoneNumber"
+          {...register("phone_number")}
         />
       </div>
     </div>

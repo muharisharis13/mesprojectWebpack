@@ -4,9 +4,10 @@ const Intro = () => {
       <section id="intro">
         <div className="intro-content">
           <h2>
-            Making <span>your ideas</span>
+            Wujudkan <span> Ide Anda </span>
             <br />
-            happen!
+            Bersama Kami
+
           </h2>
           <div>
             <a href="#about" className="btn-get-started scrollto">

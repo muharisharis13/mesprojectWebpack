@@ -1,7 +1,43 @@
 import Breadcrumbs from "./Breadcrumbs";
 import { HelmetDashboard } from "@utils";
+import { Axios } from "../../src/utils";
+import Cookie from "js-cookie";
 
 const HeaderDashboard = () => {
+  const Name = localStorage.getItem("name");
+  const role = localStorage.getItem("role");
+
+  const btnLogout = () => {
+    Axios.post("/admin/logout", {
+      id_admin: localStorage.getItem("id_admin"),
+      refresh_token: Cookie.get("refreshToken"),
+    })
+      .then((res) => {
+        console.log({ res });
+        if (res?.data) {
+          const { code, data } = res.data;
+
+          if (code === 200) {
+            Cookie.remove("token");
+            Cookie.remove("refreshToken");
+            localStorage.clear();
+            window.location.href = "/auth/login";
+          } else {
+            alert("terjadi kesalahan");
+          }
+        } else {
+          alert("terjadi kesalahan");
+        }
+      })
+      .catch((err) => {
+        alert("ada eror nih");
+      });
+  };
+
+  if (!Cookie.get("token")) {
+    return (location.href = "/auth/login");
+  }
+
   return (
     <nav
       className="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
@@ -60,8 +96,8 @@ const HeaderDashboard = () => {
                       </div>
                     </div>
                     <div className="flex-grow-1">
-                      <span className="fw-semibold d-block">John Doe</span>
-                      <small className="text-muted">Admin</small>
+                      <span className="fw-semibold d-block">{Name}</span>
+                      <small className="text-muted">{role}</small>
                     </div>
                   </div>
                 </a>
@@ -79,7 +115,7 @@ const HeaderDashboard = () => {
                 <div className="dropdown-divider"></div>
               </li>
               <li>
-                <a className="dropdown-item" href="/auth/login">
+                <a className="dropdown-item" href="#" onClick={btnLogout}>
                   <i className="bx bx-power-off me-2"></i>
                   <span className="align-middle">Log Out</span>
                 </a>

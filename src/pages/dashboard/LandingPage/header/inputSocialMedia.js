@@ -1,4 +1,4 @@
-const InputSocialMedia = () => {
+const InputSocialMedia = ({ register }) => {
   return (
     <div className="row mt-4">
       <div className="mb-3 col-md-6">
@@ -10,6 +10,7 @@ const InputSocialMedia = () => {
           type="text"
           id="facebook"
           name="facebook"
+          {...register("social_media.facebook")}
         />
       </div>
       <div className="mb-3 col-md-6">
@@ -24,6 +25,7 @@ const InputSocialMedia = () => {
             name="wa"
             className="form-control"
             placeholder="202 555 0111"
+            {...register("social_media.whatsapp")}
           />
         </div>
       </div>
@@ -36,6 +38,19 @@ const InputSocialMedia = () => {
           className="form-control"
           id="instagram"
           name="instagram"
+          {...register("social_media.instagram")}
+        />
+      </div>
+      <div className="mb-3 col-md-6">
+        <label forthml="twitter" className="form-label">
+          Twitter
+        </label>
+        <input
+          type="text"
+          className="form-control"
+          id="twitter"
+          name="twitter"
+          {...register("social_media.twitter")}
         />
       </div>
     </div>

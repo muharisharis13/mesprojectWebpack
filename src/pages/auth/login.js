@@ -1,9 +1,63 @@
 import { Helmet } from "react-helmet-async";
+import { useForm } from "react-hook-form";
+import { Axios } from "@utils";
+import Cookie from "js-cookie";
+import { Toast } from "@components";
+import { useState } from "react";
+import { Navigate } from "react-router-dom";
 
 const Login = () => {
+  const { register, handleSubmit } = useForm({
+    defaultValues: {
+      username: null,
+      password: null,
+    },
+  });
+  const [loading, setLoading] = useState(false);
+  const [alert, setAlert] = useState(false);
+
+  const btnLogin = async (data) => {
+    setLoading(true);
+    await Axios.post("/admin/login", {
+      username: data.username,
+      password: data.password,
+    })
+      .then((res) => {
+        if (res?.data) {
+          const { code, data } = res.data;
+          if (code === 200) {
+            Cookie.set("token", data?.token);
+            Cookie.set("refreshToken", data?.refresh_token);
+            localStorage.setItem("name", data?.name);
+            localStorage.setItem("role", data?.role);
+            localStorage.setItem("username", data?.username);
+            localStorage.setItem("id_admin", data?.id);
+          }
+        } else {
+          setAlert(true);
+        }
+      })
+      .catch((err) => {
+        console.log({ err });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  if (Cookie.get("token")) {
+    return (window.location.href = "/dashboard");
+  }
+
   return (
     <div>
       <div className="container-xxl">
+        <Toast
+          show={alert}
+          content="username or password wrong ! Please re-login"
+          title="Failed to Login"
+          type="danger"
+        />
         <div className="authentication-wrapper authentication-basic container-p-y">
           <div className="authentication-inner">
             {/* <!-- Register --> */}
@@ -64,7 +118,7 @@ const Login = () => {
                                 <g id="Path-3" mask="url(#mask-2)">
                                   <use fill="#696cff" xlinkHref="#path-3"></use>
                                   <use
-                                    fill-opacity="0.2"
+                                    fillOpacity="0.2"
                                     fill="#FFFFFF"
                                     xlinkHref="#path-3"
                                   ></use>
@@ -72,7 +126,7 @@ const Login = () => {
                                 <g id="Path-4" mask="url(#mask-2)">
                                   <use fill="#696cff" xlinkHref="#path-4"></use>
                                   <use
-                                    fill-opacity="0.2"
+                                    fillOpacity="0.2"
                                     fill="#FFFFFF"
                                     xlinkHref="#path-4"
                                   ></use>
@@ -84,7 +138,7 @@ const Login = () => {
                               >
                                 <use fill="#696cff" xlinkHref="#path-5"></use>
                                 <use
-                                  fill-opacity="0.2"
+                                  fillOpacity="0.2"
                                   fill="#FFFFFF"
                                   xlinkHref="#path-5"
                                 ></use>
@@ -100,7 +154,7 @@ const Login = () => {
                   </a>
                 </div>
                 {/* <!-- /Logo --> */}
-                <h4 className="mb-2">Welcome to Sneat! 👋</h4>
+                <h4 className="mb-2">Welcome to Mesproject Dashboard</h4>
                 <p className="mb-4">
                   Please sign-in to your account and start the adventure
                 </p>
@@ -108,25 +162,25 @@ const Login = () => {
                 <form
                   id="formAuthentication"
                   className="mb-3"
-                  action="index.html"
-                  method="POST"
+                  onSubmit={handleSubmit(btnLogin)}
                 >
                   <div className="mb-3">
-                    <label for="email" className="form-label">
-                      Email or Username
+                    <label forhtml="username" className="form-label">
+                      Username
                     </label>
                     <input
                       type="text"
                       className="form-control"
-                      id="email"
-                      name="email-username"
-                      placeholder="Enter your email or username"
+                      id="username"
+                      name="username"
+                      placeholder="Enter your username"
                       autoFocus
+                      {...register("username")}
                     />
                   </div>
                   <div className="mb-3 form-password-toggle">
                     <div className="d-flex justify-content-between">
-                      <label className="form-label" for="password">
+                      <label className="form-label" forhtml="password">
                         Password
                       </label>
                       <a href="auth-forgot-password-basic.html">
@@ -141,6 +195,7 @@ const Login = () => {
                         name="password"
                         placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                         aria-describedby="password"
+                        {...register("password")}
                       />
                       <span className="input-group-text cursor-pointer">
                         <i className="bx bx-hide"></i>
@@ -154,7 +209,7 @@ const Login = () => {
                         type="checkbox"
                         id="remember-me"
                       />
-                      <label className="form-check-label" for="remember-me">
+                      <label className="form-check-label" forhtml="remember-me">
                         {" "}
                         Remember Me{" "}
                       </label>
@@ -164,8 +219,9 @@ const Login = () => {
                     <button
                       className="btn btn-primary d-grid w-100"
                       type="submit"
+                      disabled={loading ? true : false}
                     >
-                      Sign in
+                      {loading ? "Loading" : "Sign in"}
                     </button>
                   </div>
                 </form>

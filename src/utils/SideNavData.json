@@ -17,16 +17,20 @@
         "href":"/dashboard/landingpage/HeaderPageDashboard"
       },
       {
-        "title":"Banner",
-        "href":"/dashboard/landingpage/BannerPageDashboard"
-      },
-      {
         "title":"About",
         "href":"/dashboard/landingpage/AboutPageDashboard"
       },
       {
         "title":"Services",
         "href":"/dashboard/landingpage/ServicesPageDashboard"
+      },
+      {
+        "title":"Portofolio",
+        "href":"/dashboard/landingpage/PortofolioPageDashboard"
+      },
+      {
+        "title":"Team",
+        "href":"/dashboard/landingpage/TeamPageDashboard"
       }
     ]
   },

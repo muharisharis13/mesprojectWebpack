@@ -1,10 +1,76 @@
+import { Axios } from "../../../utils";
+import { useEffect } from "react";
+import { useForm, useFormContext } from "react-hook-form";
+
 const AccountDashboard = () => {
+  const { setValue, register, handleSubmit } = useForm({
+    defaultValues: {
+      name: "",
+      role: "",
+      username: "",
+    },
+  });
+  const { setValue: setValueForm } = useFormContext();
+
+  const getData = async () => {
+    setValueForm("loading", true);
+    await Axios.post("/admin", {
+      id_admin: localStorage.getItem("id_admin"),
+    })
+      .then((res) => {
+        console.log({ res });
+        if (res?.data) {
+          const { code, data } = res.data;
+          if (code === 200) {
+            setValue("name", data.name);
+            setValue("role", data.role);
+            setValue("username", data.username);
+          }
+        }
+      })
+      .catch((err) => {
+        console.error({ err });
+      })
+      .finally(() => {
+        setValueForm("loading", false);
+      });
+  };
+
+  const changeName = async (data) => {
+    setValueForm("loading", true);
+    await Axios.put("/admin", {
+      id_admin: localStorage.getItem("id_admin"),
+      name: data.name,
+    })
+      .then((res) => {
+        console.log({ res });
+        if (res?.data) {
+          const { code, data } = res.data;
+          if (code === 200) {
+            setValue("name", data.name);
+            setValue("role", data.role);
+            setValue("username", data.username);
+          }
+        }
+      })
+      .catch((err) => {
+        console.error({ err });
+      })
+      .finally(() => setValueForm("loading", false));
+  };
+
+  const btnSaveChange = changeName;
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <div>
       {/* <!-- Content wrapper --> */}
       <div className="content-wrapper">
         {/* <!-- Content --> */}
-
+        {/* <Loading control={controlForm} /> */}
         <div className="container-xxl flex-grow-1 container-p-y">
           <div className="row">
             <div className="col-md-12">
@@ -52,121 +118,59 @@ const AccountDashboard = () => {
                     <div className="row">
                       <div className="mb-3 col-md-6">
                         <label forthml="firstName" className="form-label">
-                          First Name
+                          Your Name
                         </label>
                         <input
                           className="form-control"
                           type="text"
                           id="firstName"
                           name="firstName"
-                          value="John"
                           autoFocus
+                          {...register("name")}
                         />
                       </div>
                       <div className="mb-3 col-md-6">
                         <label forthml="lastName" className="form-label">
-                          Last Name
+                          role
                         </label>
                         <input
                           className="form-control"
                           type="text"
                           name="lastName"
                           id="lastName"
-                          value="Doe"
+                          {...register("role")}
+                          disabled
                         />
                       </div>
                       <div className="mb-3 col-md-6">
                         <label forthml="email" className="form-label">
-                          E-mail
+                          username
                         </label>
                         <input
                           className="form-control"
                           type="text"
                           id="email"
                           name="email"
-                          value="john.doe@example.com"
-                          placeholder="john.doe@example.com"
+                          {...register("username")}
+                          disabled
                         />
                       </div>
-                      <div className="mb-3 col-md-6">
-                        <label className="form-label" forthml="phoneNumber">
-                          Phone Number
-                        </label>
-                        <div className="input-group input-group-merge">
-                          <span className="input-group-text">ID (+62)</span>
-                          <input
-                            type="text"
-                            id="phoneNumber"
-                            name="phoneNumber"
-                            className="form-control"
-                            placeholder="202 555 0111"
-                          />
-                        </div>
-                      </div>
-                      <div className="mb-3 col-md-6">
-                        <label forthml="address" className="form-label">
-                          Address
-                        </label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="address"
-                          name="address"
-                          placeholder="Address"
-                        />
-                      </div>
-                    </div>
-                    <div className="mt-2">
-                      <button type="submit" className="btn btn-primary me-2">
-                        Save changes
-                      </button>
-                      <button
-                        type="reset"
-                        className="btn btn-outline-secondary"
-                      >
-                        Cancel
-                      </button>
                     </div>
                   </form>
                 </div>
                 {/* <!-- /Account --> */}
               </div>
               <div className="card">
-                <h5 className="card-header">Delete Account</h5>
                 <div className="card-body">
-                  <div className="mb-3 col-12 mb-0">
-                    <div className="alert alert-warning">
-                      <h6 className="alert-heading fw-bold mb-1">
-                        Are you sure you want to delete your account?
-                      </h6>
-                      <p className="mb-0">
-                        Once you delete your account, there is no going back.
-                        Please be certain.
-                      </p>
-                    </div>
-                  </div>
-                  <form id="formAccountDeactivation">
-                    <div className="form-check mb-3">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        name="accountActivation"
-                        id="accountActivation"
-                      />
-                      <label
-                        className="form-check-label"
-                        forthml="accountActivation"
-                      >
-                        I confirm my account deactivation
-                      </label>
-                    </div>
+                  <div>
                     <button
                       type="submit"
-                      className="btn btn-danger deactivate-account"
+                      className="btn btn-primary me-2"
+                      onClick={handleSubmit(btnSaveChange)}
                     >
-                      Deactivate Account
+                      Save changes
                     </button>
-                  </form>
+                  </div>
                 </div>
               </div>
             </div>
