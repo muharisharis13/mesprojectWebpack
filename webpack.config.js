@@ -2,7 +2,7 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 var webpack = require("webpack");
 const CopyPlugin = require("copy-webpack-plugin");
-const dotenv = require('dotenv');
+const dotenv = require("dotenv");
 
 module.exports = () => {
   const env = dotenv.config().parsed;
@@ -24,7 +24,7 @@ module.exports = () => {
         patterns: [
           {
             from: path.resolve(__dirname, "assets"),
-            to: path.resolve(__dirname, "build", "assets")
+            to: path.resolve(__dirname, "build", "assets"),
           },
         ],
       }),
@@ -33,7 +33,11 @@ module.exports = () => {
       new HtmlWebpackPlugin({
         template: path.join(__dirname, "index.html"),
       }),
-
+      new webpack.ProvidePlugin({
+        $: "jquery",
+        jQuery: "jquery",
+        "window.jQuery": "jquery",
+      }),
     ],
     devServer: {
       historyApiFallback: true,
@@ -60,7 +64,15 @@ module.exports = () => {
         {
           test: /\.(png|woff|woff2|eot|ttf|svg|jpg|jpeg|gif)$/, // to import images and fonts
           loader: "url-loader",
-          options: { limit: false },
+          options: { limit: 1024000 },
+        },
+        {
+          test: /\.(png|jpe?g|gif)$/i,
+          use: [
+            {
+              loader: "file-loader",
+            },
+          ],
         },
       ],
     },
@@ -74,6 +86,5 @@ module.exports = () => {
         // "@assets": path.resolve(__dirname, "public/assets/"),
       },
     },
-
-  }
+  };
 };

@@ -1,12 +1,13 @@
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
-import { Axios } from "@utils";
 import Cookie from "js-cookie";
 import { Toast } from "@components";
 import { useState } from "react";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { adminAPI } from "../../../API";
 
 const Login = () => {
+  const navigate = useNavigate();
   const { register, handleSubmit } = useForm({
     defaultValues: {
       username: null,
@@ -18,13 +19,16 @@ const Login = () => {
 
   const btnLogin = async (data) => {
     setLoading(true);
-    await Axios.post("/admin/login", {
-      username: data.username,
-      password: data.password,
-    })
+    await adminAPI
+      .login({
+        body: {
+          username: data.username,
+          password: data.password,
+        },
+      })
       .then((res) => {
         if (res?.data) {
-          const { code, data } = res.data;
+          const { code, data } = res;
           if (code === 200) {
             Cookie.set("token", data?.token);
             Cookie.set("refreshToken", data?.refresh_token);
@@ -32,13 +36,11 @@ const Login = () => {
             localStorage.setItem("role", data?.role);
             localStorage.setItem("username", data?.username);
             localStorage.setItem("id_admin", data?.id);
+            navigate("/dashboard");
           }
         } else {
           setAlert(true);
         }
-      })
-      .catch((err) => {
-        console.log({ err });
       })
       .finally(() => {
         setLoading(false);

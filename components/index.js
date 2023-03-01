@@ -1,2 +1,1 @@
-export * from "./landingpage";
-export * from "./dashboard"
+export * from "./dashboard";

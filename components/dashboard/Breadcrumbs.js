@@ -19,14 +19,14 @@ const Breadcrumbs = () => {
   }, [location.pathname]);
 
   return (
-    <h4 className="fw-bold mb-0">
+    <div className="fw-bold mb-0">
       {pathname?.map((item, idx) => (
         <span key={idx} className="text-muted fw-light">
           {item} /{" "}
         </span>
       ))}
       {lastPathname}
-    </h4>
+    </div>
   );
 };
 
